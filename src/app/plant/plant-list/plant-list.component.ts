@@ -9,6 +9,8 @@ import { Plant } from '../plant';
 })
 export class PlantListComponent implements OnInit {
   plants: Array<Plant> = [];
+  plantsIndoor: number = 0;
+  plantsOutdoor: number = 0;
   constructor(private plantService: PlantService) {}
 
   ngOnInit() {
@@ -18,6 +20,9 @@ export class PlantListComponent implements OnInit {
   getPlants(): void {
     this.plantService.getPlants().subscribe((plants) => {
       this.plants = plants;
+      this.plantsIndoor = this.plants.filter(plant => plant.tipo === "Interior").reduce((acc, plant) => acc + 1, 0);
+      this.plantsOutdoor = this.plants.filter(plant => plant.tipo === "Exterior").reduce((acc, plant) => acc + 1, 0);
     });
   }
 }
+
